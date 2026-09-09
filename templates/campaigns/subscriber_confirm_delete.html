@@ -1,0 +1,23 @@
+{% extends 'campaigns/base.html' %}[cite: 14]
+{% block title %}Confirm Purge{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-5">
+    <div class="col-md-5">
+        <div class="glass-card p-4 p-md-5 text-center">
+            <div class="d-inline-block rounded-circle p-3 mx-auto mb-3" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);">
+                <i class="bi bi-exclamation-triangle-fill fs-2"></i>
+            </div>
+            <h4 class="fw-bold text-white">Purge {{ type }}?</h4>
+            <p class="small mb-4" style="color: var(--text-secondary);">Are you sure you want to permanently delete <strong>{{ object }}</strong>? This action cannot be reversed.</p>[cite: 14]
+            <form method="post">
+                {% csrf_token %}[cite: 14]
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="javascript:history.back()" class="btn btn-ai-secondary px-4">Abort</a>
+                    <button type="submit" class="btn btn-ai px-4" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">Confirm Purge</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'campaigns/base.html' %}
+{% block title %}Neural Command Center — Campaigner{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-white mb-1">Command Center</h3>
+        <p class="small mb-0" style="color: var(--text-secondary);">Real-time metrics for automated audience targeting</p>
+    </div>
+    <a href="{% url 'campaign_list' %}" class="btn btn-ai">
+        <i class="bi bi-plus-lg me-1"></i> New Campaign
+    </a>
+</div>
+
+<!-- Metrics Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-sm-6">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="fw-semibold small text-uppercase" style="color: var(--text-muted); letter-spacing: 0.05em;">Audience Lists</span>
+                    <h2 class="fw-bold text-white mt-2 mb-0">{{ total_lists }}</h2>
+                </div>
+                <div class="p-3 rounded-4" style="background: rgba(139, 92, 246, 0.15); color: var(--primary);">
+                    <i class="bi bi-folder-fill fs-3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="fw-semibold small text-uppercase" style="color: var(--text-muted); letter-spacing: 0.05em;">Subscribers</span>
+                    <h2 class="fw-bold text-white mt-2 mb-0">{{ total_subscribers }}</h2>
+                </div>
+                <div class="p-3 rounded-4" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">
+                    <i class="bi bi-people-fill fs-3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="fw-semibold small text-uppercase" style="color: var(--text-muted); letter-spacing: 0.05em;">Templates</span>
+                    <h2 class="fw-bold text-white mt-2 mb-0">{{ total_templates|default:0 }}</h2>
+                </div>
+                <div class="p-3 rounded-4" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">
+                    <i class="bi bi-code-slash fs-3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="fw-semibold small text-uppercase" style="color: var(--text-muted); letter-spacing: 0.05em;">Ready to Send</span>
+                    <h2 class="fw-bold text-emerald mt-2 mb-0" style="color: #34d399;">{{ ready_campaigns|default:0 }}</h2>
+                </div>
+                <div class="p-3 rounded-4" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);">
+                    <i class="bi bi-lightning-charge-fill fs-3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Architecture Pipeline Cards -->
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="glass-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge" style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan);">STEP 1</span>
+                <h5 class="fw-bold text-white mb-0">Audience Segmentation (WHO)</h5>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Organize contacts into high-intent groups. Define lists and manage automated subscribers.</p>
+            <div class="mt-auto pt-3">
+                <a href="{% url 'contact_lists' %}" class="btn btn-ai-secondary w-100">Configure Audience →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="glass-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge" style="background: rgba(139, 92, 246, 0.2); color: var(--primary);">STEP 2</span>
+                <h5 class="fw-bold text-white mb-0">Campaign Engine (WHAT)</h5>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Bind message templates with dynamic tags and set campaigns from DRAFT to READY.</p>
+            <div class="mt-auto pt-3">
+                <a href="{% url 'campaign_list' %}" class="btn btn-ai w-100">Launch Campaigns →</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'campaigns/base.html' %}[cite: 13]
+{% block title %}Provision Node — Campaigner Studio{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-4">
+    <div class="col-md-5 col-lg-4">
+        <div class="glass-card p-4 p-md-5 shadow-2xl">
+            <div class="text-center mb-4">
+                <div class="rounded-4 p-3 d-inline-block text-white mb-2" style="background: linear-gradient(135deg, var(--accent-pink), var(--primary)); box-shadow: 0 0 25px rgba(236, 72, 153, 0.4);">
+                    <i class="bi bi-person-plus-fill fs-3"></i>[cite: 13]
+                </div>
+                <h4 class="fw-bold text-white">Provision Access</h4>
+                <p class="small" style="color: var(--text-secondary);">Join the mass distribution network</p>
+            </div>
+            <form method="post">
+                {% csrf_token %}[cite: 13]
+                {% for field in form %}[cite: 13]
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold" style="color: var(--text-muted);">{{ field.label|upper }}</label>
+                    <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}" class="form-control" placeholder="{{ field.label }}">[cite: 13]
+                    {% if field.errors %}[cite: 13]
+                        <div class="text-danger small mt-1">{{ field.errors.0 }}</div>[cite: 13]
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-ai w-100 py-2.5 mt-2">Initialize Account</button>
+            </form>
+            <div class="text-center mt-4">
+                <small style="color: var(--text-secondary);">Existing node operator? <a href="{% url 'login' %}" class="fw-semibold text-primary text-decoration-none">Sign In</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

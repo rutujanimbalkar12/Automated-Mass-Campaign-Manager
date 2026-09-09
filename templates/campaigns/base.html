@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Campaigner AI — NextGen Campaign Studio{% endblock %}</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --bg-body: #090d16;
+            --bg-surface: #0f172a;
+            --bg-card: rgba(17, 24, 39, 0.7);
+            --bg-card-hover: rgba(24, 34, 53, 0.85);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(139, 92, 246, 0.3);
+            
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.4);
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        code, pre { font-family: 'JetBrains Mono', monospace; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism Sidebar */
+        .sidebar {
+            min-height: 100vh;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        .brand-logo {
+            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .nav-link-custom {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 10px 14px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            margin-bottom: 6px;
+            border: 1px solid transparent;
+        }
+
+        .nav-link-custom:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border-subtle);
+            transform: translateX(4px);
+        }
+
+        .nav-link-custom.active {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(6, 182, 212, 0.15));
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .nav-link-custom.active i {
+            color: var(--accent-cyan);
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6));
+        }
+
+        /* Glassmorphic Pro Cards */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Modern Tables */
+        .table-pro {
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+        .table-pro thead th {
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 16px 20px;
+        }
+        .table-pro tbody td {
+            background: transparent;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 16px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .table-pro tbody tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+            color: #fff;
+        }
+
+        /* AI Buttons */
+        .btn-ai {
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px var(--primary-glow);
+            transition: all 0.25s ease;
+        }
+        .btn-ai:hover {
+            background: linear-gradient(135deg, #9333ea, var(--primary));
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+            transform: translateY(-1px);
+        }
+
+        .btn-ai-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            font-weight: 500;
+            padding: 9px 18px;
+            transition: all 0.2s ease;
+        }
+        .btn-ai-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Status Pills */
+        .badge-ready-ai {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge-ready-ai::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #34d399;
+            box-shadow: 0 0 8px #34d399;
+        }
+
+        .badge-draft-ai {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge-draft-ai::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #fbbf24;
+        }
+
+        /* Inputs & Form Elements */
+        .form-control, .form-select {
+            background-color: rgba(15, 23, 42, 0.8) !important;
+            border: 1px solid var(--border-subtle) !important;
+            color: #fff !important;
+            border-radius: 10px !important;
+            padding: 11px 16px !important;
+            font-size: 0.9rem !important;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px var(--primary-glow) !important;
+        }
+        .form-control::placeholder {
+            color: var(--text-muted) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            {% if user.is_authenticated %}
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse p-3">
+                <div class="d-flex align-items-center mb-4 ps-2 pt-2 gap-2">
+                    <div class="rounded-3 p-2 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, var(--primary), var(--accent-cyan)); width: 36px; height: 36px;">
+                        <i class="bi bi-cpu-fill text-white fs-6"></i>
+                    </div>
+                    <div>
+                        <span class="brand-logo fs-5 d-block">Campaigner</span>
+                        <span class="badge" style="background: rgba(139,92,246,0.2); color: #c4b5fd; font-size: 0.65rem; padding: 2px 6px;">V2 ENGINE</span>
+                    </div>
+                </div>
+
+                <div class="mb-2 px-2 text-uppercase fw-bold" style="color: var(--text-muted); font-size: 0.68rem; letter-spacing: 0.08rem;">Core Engine</div>
+                <ul class="nav flex-column mb-auto">
+                    <li>
+                        <a href="{% url 'dashboard' %}" class="nav-link-custom {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill me-2.5"></i> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contact_lists' %}" class="nav-link-custom {% if 'list' in request.resolver_match.url_name and 'campaign' not in request.resolver_match.url_name and 'template' not in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-people-fill me-2.5"></i> Audience (WHO)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'template_list' %}" class="nav-link-custom {% if 'template' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-code-square me-2.5"></i> Templates
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'campaign_list' %}" class="nav-link-custom {% if 'campaign' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-send-check-fill me-2.5"></i> Campaigns (WHAT)
+                        </a>
+                    </li>
+                </ul>
+
+                <hr style="border-color: var(--border-subtle);">
+                <div class="px-2 pt-1">
+                    <div class="d-flex align-items-center mb-3 p-2 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle);">
+                        <div class="rounded-circle text-white d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 32px; height: 32px; font-size: 0.8rem; background: linear-gradient(135deg, #ec4899, #8b5cf6);">
+                            {{ user.username|first|upper }}
+                        </div>
+                        <div class="overflow-hidden">
+                            <small class="text-white d-block fw-semibold text-truncate">{{ user.username }}</small>
+                            <small class="d-block" style="color: var(--text-muted); font-size: 0.7rem;">Active Node</small>
+                        </div>
+                    </div>
+                    <a href="{% url 'logout' %}" class="btn btn-ai-secondary btn-sm w-100 text-danger" style="border-color: rgba(239, 68, 68, 0.2);"><i class="bi bi-box-arrow-right me-1"></i> Terminate Session</a>
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            {% else %}
+            <main class="col-12 py-5">
+            {% endif %}
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

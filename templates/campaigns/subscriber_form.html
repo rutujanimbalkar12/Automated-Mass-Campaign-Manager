@@ -1,0 +1,28 @@
+{% extends 'campaigns/base.html' %}[cite: 15]
+{% block title %}Subscriber Node{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="glass-card p-4">
+            <h4 class="fw-bold text-white mb-1">{% if form.instance.pk %}Edit{% else %}Register{% endif %} Subscriber</h4>
+            <p class="small mb-4" style="color: var(--text-secondary);">Target Bucket: <strong class="text-white">{{ contact_list.name }}</strong></p>[cite: 15]
+            <form method="post">
+                {% csrf_token %}[cite: 15]
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold" style="color: var(--text-muted);">SUBSCRIBER NAME</label>
+                    {{ form.name }}[cite: 15]
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold" style="color: var(--text-muted);">EMAIL ADDRESS</label>
+                    {{ form.email }}[cite: 15]
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="{% url 'contact_list_detail' contact_list.pk %}" class="btn btn-ai-secondary">Cancel</a>[cite: 15]
+                    <button type="submit" class="btn btn-ai px-4">Save Subscriber</button>[cite: 15]
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

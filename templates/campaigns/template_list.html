@@ -1,0 +1,74 @@
+{% extends 'campaigns/base.html' %}
+{% block title %}Email Templates — Studio{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-white mb-1">Email Templates</h3>
+        <p class="small mb-0" style="color: var(--text-secondary);">Compose dynamic, reusable layouts with placeholder variables</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="glass-card p-4">
+            <h5 class="fw-bold text-white mb-3"><i class="bi bi-pencil-square text-primary me-2"></i>Compose Template</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color: var(--text-muted);">TEMPLATE TITLE</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color: var(--text-muted);">SUBJECT LINE</label>
+                    {{ form.subject }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color: var(--text-muted);">BODY (HTML/TEXT)</label>
+                    {{ form.body }}
+                    <div class="p-2 rounded-3 mt-2 small" style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); color: var(--text-secondary);">
+                        <i class="bi bi-magic me-1 text-primary"></i> Merge Tags: <code>{% verbatim %}{{name}}{% endverbatim %}</code>, <code>{% verbatim %}{{email}}{% endverbatim %}</code>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-ai w-100 mt-2"><i class="bi bi-check2-circle me-1"></i> Save to Library</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="glass-card overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-pro align-middle">
+                    <thead>
+                        <tr>
+                            <th>Template</th>
+                            <th>Subject</th>
+                            <th>Created</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in templates %}
+                        <tr>
+                            <td class="fw-semibold text-white">{{ item.title }}</td>
+                            <td>{{ item.subject }}</td>
+                            <td class="small" style="color: var(--text-muted);">{{ item.created_at|date:"M d, Y" }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'template_update' item.pk %}" class="btn btn-ai-secondary btn-sm me-1"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'template_delete' item.pk %}" class="btn btn-ai-secondary btn-sm text-danger" style="border-color: rgba(239, 68, 68, 0.2);"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-5" style="color: var(--text-muted);">
+                                <i class="bi bi-file-earmark-code fs-2 d-block mb-2"></i>
+                                No templates defined yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

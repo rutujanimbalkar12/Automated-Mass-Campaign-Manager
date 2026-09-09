@@ -1,0 +1,88 @@
+{% extends 'campaigns/base.html' %}
+{% block title %}Campaign Orchestrator — V2{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-white mb-1">Campaign Orchestrator</h3>
+        <p class="small mb-0" style="color: var(--text-secondary);">Combine audience segments (WHO) with email layouts (WHAT)</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="glass-card p-4">
+            <h5 class="fw-bold text-white mb-3"><i class="bi bi-send-plus text-primary me-2"></i>Assemble Campaign</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color: var(--text-muted);">CAMPAIGN NAME</label>
+                    {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color: var(--text-muted);">TARGET AUDIENCE (WHO)</label>
+                    {{ form.contact_list }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color: var(--text-muted);">EMAIL TEMPLATE (WHAT)</label>
+                    {{ form.template }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color: var(--text-muted);">PIPELINE STATUS</label>
+                    {{ form.status }}
+                </div>
+                <button type="submit" class="btn btn-ai w-100 mt-2"><i class="bi bi-cpu me-1"></i> Register Campaign</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="glass-card overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-pro align-middle">
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th>Audience</th>
+                            <th>Template</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in campaigns %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'campaign_detail' c.pk %}" class="fw-bold text-white text-decoration-none">{{ c.name }}</a>
+                            </td>
+                            <td>
+                                <span class="badge" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">{{ c.contact_list.name }}</span>
+                            </td>
+                            <td class="small">{{ c.template.title }}</td>
+                            <td>
+                                {% if c.status == 'READY' %}
+                                    <span class="badge-ready-ai">READY</span>
+                                {% else %}
+                                    <span class="badge-draft-ai">DRAFT</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <a href="{% url 'campaign_detail' c.pk %}" class="btn btn-ai-secondary btn-sm me-1"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'campaign_update' c.pk %}" class="btn btn-ai-secondary btn-sm me-1"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'campaign_delete' c.pk %}" class="btn btn-ai-secondary btn-sm text-danger" style="border-color: rgba(239, 68, 68, 0.2);"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5" style="color: var(--text-muted);">
+                                <i class="bi bi-megaphone-slash fs-2 d-block mb-2"></i>
+                                No active campaigns compiled.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

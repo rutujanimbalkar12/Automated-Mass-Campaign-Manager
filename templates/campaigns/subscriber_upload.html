@@ -1,0 +1,100 @@
+{% extends 'campaigns/base.html' %}
+{% block title %}Import Subscribers — {{ contact_list.name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <!-- Return Navigation -->
+        <div class="mb-3">
+            <a href="{% url 'contact_list_detail' contact_list.pk %}" class="btn btn-link text-decoration-none px-0 small" style="color: var(--text-muted);">
+                <i class="bi bi-arrow-left me-1"></i> Return to {{ contact_list.name }}
+            </a>
+        </div>
+
+        {% if stats %}
+        <!-- Post-Import Result Card -->
+        <div class="glass-card p-4 mb-4 border-glow">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                <h5 class="fw-bold text-white mb-0">Import Processing Complete</h5>
+            </div>
+            
+            <div class="row g-2 mb-3">
+                <div class="col-4">
+                    <div class="p-3 rounded-3 text-center" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <span class="d-block small text-uppercase" style="color: var(--accent-emerald); font-size: 0.7rem;">Imported</span>
+                        <h4 class="fw-bold text-white mb-0 mt-1">{{ stats.imported }}</h4>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="p-3 rounded-3 text-center" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2);">
+                        <span class="d-block small text-uppercase" style="color: var(--accent-amber); font-size: 0.7rem;">Duplicates</span>
+                        <h4 class="fw-bold text-white mb-0 mt-1">{{ stats.duplicates }}</h4>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="p-3 rounded-3 text-center" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <span class="d-block small text-uppercase text-danger" style="font-size: 0.7rem;">Invalid</span>
+                        <h4 class="fw-bold text-white mb-0 mt-1">{{ stats.invalid }}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center pt-2">
+                <span class="small" style="color: var(--text-secondary);">
+                    Total Audience Count: <strong class="text-white">{{ stats.total_members }}</strong> subscribers
+                </span>
+                <a href="{% url 'contact_list_detail' contact_list.pk %}" class="btn btn-ai btn-sm px-3">
+                    View Updated List
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Upload Card -->
+        <div class="glass-card p-4">
+            <h4 class="fw-bold text-white mb-1">
+                <i class="bi bi-filetype-csv text-primary me-2"></i>Bulk Import Subscribers
+            </h4>
+            <p class="small mb-4" style="color: var(--text-secondary);">
+                Target Audience Bucket: <strong class="text-white">{{ contact_list.name }}</strong>
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show small" role="alert" style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-subtle); color: #fff;">
+                        {{ message }}
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold" style="color: var(--text-muted);">SELECT CSV FILE</label>
+                    {{ form.file }}
+                    {% if form.file.errors %}
+                        <div class="text-danger small mt-1">{{ form.file.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Template Guidance Box -->
+                <div class="p-3 rounded-3 mb-4" style="background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-subtle);">
+                    <span class="small fw-semibold d-block text-white mb-1"><i class="bi bi-info-circle me-1 text-cyan"></i> Expected CSV Format</span>
+                    <pre class="mb-0 text-muted small"><code>name,email
+Rutuja,rutuja@gmail.com
+Anushka,anushka@gmail.com</code></pre>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{% url 'contact_list_detail' contact_list.pk %}" class="btn btn-ai-secondary">Back</a>
+                    <button type="submit" class="btn btn-ai px-4">
+                        <i class="bi bi-cloud-arrow-up me-1"></i> Upload & Process
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
